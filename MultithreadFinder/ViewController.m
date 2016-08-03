@@ -25,22 +25,26 @@
 }
 
 -(void)testFindObj{
+    NSLog(@"testFindObj---begin----");
     NSArray *ary = [self getTestSource];
     
     Finder *finder = [[Finder alloc]initWithExecutorsCount:5];
-    BOOL ret = [finder execute:ary withBlock:^BOOL(NSUInteger idx, NSString *findObj) {
-        //        NSLog(@"%@", findObj);
+    BOOL ret = [finder execute:ary withBlock:^BOOL(NSUInteger idx, id findObj) {
+        NSString *obj = findObj;
+//                NSLog(@"%@", findObj);
         
-        if([findObj isEqualToString:@"500"]){
-            NSLog(@"找到我要的物件,index[%d]",idx);
+        if([obj isEqualToString:@"500"]){
+            NSLog(@"找到我要的物件,index[%lu]",(unsigned long)idx);
             return YES;
         }
         return NO;
     }];
     NSLog(@"是否有找到[%@]", ret ? @"true" : @"false");
+    NSLog(@"testFindObj---end----");
 }
 
 -(void)testNotfoundObj{
+    NSLog(@"testNotfoundObj---begin----");
     NSArray *ary = [self getTestSource];
     
     Finder *finder = [[Finder alloc]initWithExecutorsCount:5];
@@ -48,18 +52,19 @@
         //        NSLog(@"%@", findObj);
         
         if([findObj isEqualToString:@"4000"]){
-            NSLog(@"找到我要的物件,index[%d]",idx);
+            NSLog(@"找到我要的物件,index[%lu]",(unsigned long)idx);
             return YES;
         }
         return NO;
     }];
     NSLog(@"是否有找到[%@]", ret ? @"true" : @"false");
+    NSLog(@"testNotfoundObj---end----");
 }
 
 - (NSArray *)getTestSource{
     NSMutableArray *ary = [NSMutableArray new];
     
-    for(int i = 0; i <= 4; i++){
+    for(int i = 0; i <= 3000; i++){
         [ary addObject:[NSString stringWithFormat:@"%d",i]];
     }
     

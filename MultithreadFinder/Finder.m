@@ -21,20 +21,29 @@
 }
 
 -(BOOL)execute:(NSArray *)source withBlock:(BOOL (^)(NSUInteger idx, id findObj))block{
+    
     __block BOOL isFind = NO;//是否找到物件
     
     NSUInteger count = 0;//找幾次
-    NSUInteger n = [source count] / mCount;//每次找幾個
-    NSInteger m = [source count] % n;//取要被找的物件個數餘數，若除不盡要多找1次
+    NSUInteger n = 1;//每次找幾個
     
+    if([source count] > mCount){
+        n = [source count] / mCount;
+    }else{
+        n = [source count];
+    }
+    
+    NSInteger m = [source count] % n;//取要被找的物件個數餘數，若除不盡要多找1次
+
     if(m > 0){
         count = mCount + 1;
     }else{
         count = mCount;
     }
     
-//    NSLog(@"每次找幾個:%d", n);
-//    NSLog(@"找幾次:%d", count);
+//    NSLog(@"source count[%lu],mCount[%ld]", (unsigned long)[source count], (long)mCount);
+//    NSLog(@"每次找幾個:%lu", (unsigned long)n);
+//    NSLog(@"找幾次:%lu", (unsigned long)count);
     
     NSUInteger startIndex = 0;//每個job開始找的位置
     NSInteger endIndex = 0;//每個job要停止找的位置
